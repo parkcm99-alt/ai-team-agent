@@ -46,6 +46,16 @@ python3 tests/harness/communication_validation_runner.py
 
 러너는 골든 커뮤니케이션 예시가 통과하는지, 실패 커뮤니케이션 예시가 의도대로 감지되는지 확인합니다.
 
+## 커뮤니케이션 워크플로 검증 실행
+
+커뮤니케이션 에이전트의 워크플로 출력 예시 전체를 검증하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
+
+```bash
+python3 tests/harness/communication_workflow_runner.py
+```
+
+러너는 `examples/communication_outputs` 아래의 모든 Markdown 출력이 커뮤니케이션 에이전트 형식과 승인 게이트 기준을 만족하는지 확인합니다.
+
 ## 관련 문서
 
 - `tests/harness/checklists/document_validation.md`

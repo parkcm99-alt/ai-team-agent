@@ -15,11 +15,13 @@ COMMANDS = [
     ["python3", "tests/harness/document_validation_runner.py"],
     ["python3", "tests/harness/document_workflow_runner.py"],
     ["python3", "tests/harness/communication_validation_runner.py"],
+    ["python3", "tests/harness/communication_workflow_runner.py"],
     ["python3", "-m", "py_compile", "tests/harness/policy_checker.py"],
     ["python3", "-m", "py_compile", "tests/harness/replay_runner.py"],
     ["python3", "-m", "py_compile", "tests/harness/document_validation_runner.py"],
     ["python3", "-m", "py_compile", "tests/harness/document_workflow_runner.py"],
     ["python3", "-m", "py_compile", "tests/harness/communication_validation_runner.py"],
+    ["python3", "-m", "py_compile", "tests/harness/communication_workflow_runner.py"],
 ]
 
 
