@@ -56,10 +56,21 @@ python3 tests/harness/communication_workflow_runner.py
 
 러너는 `examples/communication_outputs` 아래의 모든 Markdown 출력이 커뮤니케이션 에이전트 형식과 승인 게이트 기준을 만족하는지 확인합니다.
 
+## Sheets Reader 검증 실행
+
+Sheets Reader Agent의 로컬 CSV 읽기 전용 리포트를 검증하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
+
+```bash
+python3 tests/harness/sheets_reader_validation_runner.py
+```
+
+러너는 `examples/sheets_outputs/sample_play_count_report.md`가 필수 한국어 섹션, 쓰기 미수행 문구, 누락값, 중복 의심값, 숫자 형식 오류를 올바르게 포함하는지 확인합니다.
+
 ## 관련 문서
 
 - `tests/harness/checklists/document_validation.md`
 - `tests/harness/checklists/communication_validation.md`
+- `tests/harness/checklists/sheets_reader_validation.md`
 - `harness/checklists/document_output_validation.md`
 - `harness/checklists/email_draft_validation.md`
 - `harness/checklists/google_sheets_write_validation.md`

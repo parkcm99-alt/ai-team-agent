@@ -1,0 +1,9 @@
+date,track_id,title,artist,play_count,platform
+2026-05-01,TK-001,Blue Hour,Acme Sound,1200,Instagram
+2026-05-01,TK-002,Night Drive,Acme Sound,980,YouTube
+2026-05-01,TK-002,Night Drive,Acme Sound,980,YouTube
+2026-05-02,TK-003,City Lights,,870,Instagram
+2026-05-02,TK-004,Morning Run,Acme Sound,"1,050",TikTok
+2026-05-03,TK-005,River Walk,Acme Sound,12O0,YouTube
+2026-05-03,,Late Coffee,Acme Sound,640,Instagram
+2026-05-04,TK-006,확인 필요,Acme Sound,730,TikTok
