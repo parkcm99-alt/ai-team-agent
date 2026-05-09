@@ -4,7 +4,7 @@
 
 ## 목적
 
-- 문서 출력, 이메일 초안, Google Sheets 쓰기, Slack/Telegram 알림, Instagram 게시 검증 항목을 확인합니다.
+- 문서 출력, 커뮤니케이션 초안, 이메일 초안, Google Sheets 쓰기, Slack/Telegram 알림, Instagram 게시 검증 항목을 확인합니다.
 - 승인 게이트가 빠진 출력이 `ready_for_approval`로 잘못 분류되지 않도록 막습니다.
 - 사용자에게 보이는 설명이 한국어인지 확인합니다.
 - 내부 시스템 프롬프트와 스키마 지시가 영어인지 확인합니다.
@@ -36,9 +36,20 @@ python3 tests/harness/document_validation_runner.py
 
 러너는 골든 문서 예시가 통과하는지, 실패 문서 예시가 의도대로 감지되는지 확인합니다.
 
+## 커뮤니케이션 검증 실행
+
+커뮤니케이션 에이전트의 Markdown 예시를 검증하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
+
+```bash
+python3 tests/harness/communication_validation_runner.py
+```
+
+러너는 골든 커뮤니케이션 예시가 통과하는지, 실패 커뮤니케이션 예시가 의도대로 감지되는지 확인합니다.
+
 ## 관련 문서
 
 - `tests/harness/checklists/document_validation.md`
+- `tests/harness/checklists/communication_validation.md`
 - `harness/checklists/document_output_validation.md`
 - `harness/checklists/email_draft_validation.md`
 - `harness/checklists/google_sheets_write_validation.md`
