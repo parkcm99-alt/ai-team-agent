@@ -66,8 +66,19 @@ python3 tests/harness/sheets_reader_validation_runner.py
 
 러너는 `examples/sheets_outputs/sample_play_count_report.md`가 필수 한국어 섹션, 쓰기 미수행 문구, 누락값, 중복 의심값, 숫자 형식 오류를 올바르게 포함하는지 확인합니다.
 
+## Assistant Report 검증 실행
+
+Assistant Report Agent의 로컬 상태 보고서를 검증하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
+
+```bash
+python3 tests/harness/assistant_report_validation_runner.py
+```
+
+러너는 `reports/daily_status_report.md`가 필수 한국어 섹션, 외부 실행 미수행 문구, 남은 리스크, 다음 추천 작업, 승인 필요 항목을 포함하는지 확인합니다.
+
 ## 관련 문서
 
+- `tests/harness/checklists/assistant_report_validation.md`
 - `tests/harness/checklists/document_validation.md`
 - `tests/harness/checklists/communication_validation.md`
 - `tests/harness/checklists/sheets_reader_validation.md`
