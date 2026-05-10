@@ -110,7 +110,7 @@ AI 팀 에이전트 시스템의 초기 프로젝트 구조입니다. 첫 버전
 - `postcss` 관련 npm audit 리스크는 `apps/web/package.json`의 npm override로 `postcss`를 `^8.5.10` 이상으로 고정해 해소했습니다.
 - 현재 웹 앱의 `npm audit`는 `found 0 vulnerabilities` 상태입니다.
 - `npm audit fix --force`는 breaking change를 만들거나 Next.js를 다운그레이드할 수 있어 사용하지 않았습니다.
-- Vercel 설정은 Root Directory `apps/web`, Build Command `npm run build`, Install Command `npm install`을 사용합니다.
+- Vercel 설정은 Root Directory `apps/web`, Framework Preset `Next.js`, Build Command `npm run build`, Install Command `npm install`을 사용합니다.
 - Vercel 배포는 `npm audit`, `npm run build`, `python3 tests/harness/run_all.py`가 다시 통과한 뒤에만 진행해야 합니다.
 
 ## 하네스 통합 점검

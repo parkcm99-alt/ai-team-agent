@@ -26,7 +26,7 @@ Vercel에서 GitHub 저장소를 가져올 때 다음 설정을 사용합니다.
 - Build Command: `npm run build`
 - Output Directory: 기본 Next.js/Vercel 설정 사용
 
-`apps/web/vercel.json`에는 설치 명령과 빌드 명령만 명시했습니다. 환경 변수, secrets, 외부 API 연결은 추가하지 않았습니다.
+`apps/web/vercel.json`에는 Next.js 프레임워크 프리셋, 설치 명령, 빌드 명령만 명시했습니다. 환경 변수, secrets, 외부 API 연결은 추가하지 않았습니다.
 
 ## 로컬 실행 준비
 
