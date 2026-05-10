@@ -69,7 +69,7 @@ def summarize_git_status(output: str) -> str:
     lines = [line for line in output.splitlines() if line.strip()]
     if "nothing to commit" in output or lines == ["## main...origin/main"]:
         return "작업 트리가 깨끗하거나 추적 중인 변경이 없습니다."
-    return "로컬 변경 사항이 있어 커밋 전 확인이 필요합니다."
+    return "로컬 변경 사항이 감지되었습니다."
 
 
 def summarize_harness(output: str, returncode: int) -> str:
@@ -162,7 +162,8 @@ AI 팀 에이전트 일일 상태 보고서
 
 ### 오늘의 전체 상태
 
-- 현재 저장소 상태: {git_summary}
+- 보고서 생성 시점 기준 저장소 상태: {git_summary}
+- 최종 Git 상태는 별도 확인 필요
 - 하네스 상태: {harness_summary}
 - 보고서 생성 단계: {phase}
 

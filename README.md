@@ -125,6 +125,7 @@ AI 팀 에이전트 시스템의 초기 프로젝트 구조입니다. 첫 버전
 - Slack/Telegram 실제 발송은 연결하지 않았습니다.
 - 모든 외부 실행 작업은 계속 승인 게이트 또는 차단 상태로 유지합니다.
 - 현재 보고서 연동은 정적/build-time 방식이며, 외부 API나 런타임 파일 동기화는 사용하지 않습니다.
+- Assistant Report 데이터는 보고서 생성 시점의 로컬 상태를 반영할 수 있으며, 최신 Git 상태는 Vercel/GitHub 배포 기준으로 별도 확인해야 합니다.
 - `postcss` 관련 npm audit 리스크는 `apps/web/package.json`의 npm override로 `postcss`를 `^8.5.10` 이상으로 고정해 해소했습니다.
 - 현재 웹 앱의 `npm audit`는 `found 0 vulnerabilities` 상태입니다.
 - `npm audit fix --force`는 breaking change를 만들거나 Next.js를 다운그레이드할 수 있어 사용하지 않았습니다.

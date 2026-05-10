@@ -13,6 +13,8 @@
 - 외부 API, 인증 정보, 비밀값, 실서비스 데이터 연결은 없습니다.
 - Slack/Telegram 실제 발송은 연결하지 않았습니다.
 - 모든 외부 실행 작업은 계속 승인 게이트 또는 차단 상태입니다.
+- Assistant Report 데이터는 보고서 생성 시점의 로컬 상태를 반영할 수 있습니다.
+- 최신 Git 상태는 Vercel/GitHub 배포 기준으로 별도 확인해야 합니다.
 - 배포 상태: 배포 완료
 - 현재 Vercel URL: https://ai-team-agent-one.vercel.app
 - Environment variables: none

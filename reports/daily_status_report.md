@@ -6,7 +6,8 @@ AI 팀 에이전트 일일 상태 보고서
 
 ### 오늘의 전체 상태
 
-- 현재 저장소 상태: 로컬 변경 사항이 있어 커밋 전 확인이 필요합니다.
+- 보고서 생성 시점 기준 저장소 상태: 로컬 변경 사항이 감지되었습니다.
+- 최종 Git 상태는 별도 확인 필요
 - 하네스 상태: 전체 하네스 점검이 통과했습니다.
 - 보고서 생성 단계: final
 
@@ -45,11 +46,11 @@ AI 팀 에이전트 일일 상태 보고서
 
 ### 최근 커밋 요약
 
+- b2a548a feat: show supervisor and notification status on dashboard
 - 3809520 feat: add notification draft agent MVP
 - 1049c0b feat: add supervisor agent MVP
 - 0b8d80c feat: display assistant report on dashboard
 - 2ebe609 docs: record vercel dashboard deployment
-- d884853 fix: set Vercel framework preset to Next.js
 
 ### 남은 리스크
 
