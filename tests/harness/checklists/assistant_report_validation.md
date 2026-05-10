@@ -17,6 +17,7 @@ Assistant Report Agent가 로컬 명령 결과만 사용해 한국어 상태 보
 - [ ] `structure.completed_work_present`: `완료된 작업` 섹션이 있습니다.
 - [ ] `structure.agent_status_present`: `에이전트별 상태` 섹션이 있습니다.
 - [ ] `structure.harness_result_present`: `하네스 점검 결과` 섹션이 있습니다.
+- [ ] `structure.supervisor_routing_result_present`: `Supervisor 라우팅 결과` 섹션이 있습니다.
 - [ ] `structure.recent_commits_present`: `최근 커밋 요약` 섹션이 있습니다.
 - [ ] `structure.remaining_risks_present`: `남은 리스크` 섹션이 있습니다.
 - [ ] `structure.next_recommended_tasks_present`: `다음 추천 작업` 섹션이 있습니다.
@@ -34,3 +35,4 @@ Assistant Report Agent가 로컬 명령 결과만 사용해 한국어 상태 보
 - [ ] `quality.remaining_risks_present`: 남은 리스크가 포함되어 있습니다.
 - [ ] `quality.next_task_present`: 다음 추천 작업이 포함되어 있습니다.
 - [ ] `approval.items_present`: 승인 필요 항목이 포함되어 있습니다.
+- [ ] `supervisor.routing_summary_present`: 총 요청 수, 차단된 요청 수, 승인 필요 요청 수, 라우팅 대상 에이전트 목록, 위험 작업 차단 요약, 확인이 필요한 요청 요약, 외부 실행 미수행이 포함되어 있습니다.

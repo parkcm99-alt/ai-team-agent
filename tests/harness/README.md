@@ -16,11 +16,11 @@
 
 - 입력, 기대 출력, 금지 출력 형식을 정의합니다.
 - 한국어 사용자 출력 정책 검증 케이스를 추가합니다.
-- Google Sheets, Gmail, Slack, Telegram, Instagram, reporting별 샘플 케이스를 준비합니다.
+- Google Sheets, Gmail, Slack, Telegram, Instagram, reporting, notification별 샘플 케이스를 준비합니다.
 
 ## 통합 점검 실행
 
-하네스 정책, 리플레이 데이터셋, 문서 검증, 문서 워크플로, 커뮤니케이션 검증, 커뮤니케이션 워크플로, Sheets Reader 검증, Assistant Report 검증, Supervisor 라우팅 검증, Python 문법 검사를 한 번에 확인하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
+하네스 정책, 리플레이 데이터셋, 문서 검증, 문서 워크플로, 커뮤니케이션 검증, 커뮤니케이션 워크플로, Sheets Reader 검증, Assistant Report 검증, Supervisor 라우팅 검증, Notification 초안 검증, Python 문법 검사를 한 번에 확인하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
 
 ```bash
 python3 tests/harness/run_all.py
@@ -39,4 +39,11 @@ Supervisor 라우팅 검증만 개별 실행하려면 다음 명령어를 사용
 ```bash
 python3 agents/supervisor/supervisor_router.py
 python3 tests/harness/supervisor_validation_runner.py
+```
+
+Notification 초안 검증만 개별 실행하려면 다음 명령어를 사용합니다.
+
+```bash
+python3 agents/notification/notification_draft_runner.py
+python3 tests/harness/notification_validation_runner.py
 ```

@@ -16,6 +16,7 @@ AI 팀 에이전트 일일 상태 보고서
 - Communication Agent MVP, 워크플로 테스트, 로컬 러너가 준비되어 있습니다.
 - Sheets Reader MVP가 로컬 CSV 읽기 전용으로 준비되어 있습니다.
 - Assistant Report Agent MVP가 로컬 상태 보고서를 생성합니다.
+- Supervisor Agent MVP 라우팅 결과가 보고서에 반영됩니다.
 
 ### 에이전트별 상태
 
@@ -24,20 +25,31 @@ AI 팀 에이전트 일일 상태 보고서
 - Communication Agent: 로컬 커뮤니케이션 요약, 워크플로, 검증 통과
 - Sheets Reader Agent: 로컬 CSV 읽기 전용 리포트 생성 및 검증 통과
 - Harness Agent: 정책, 리플레이, 문서, 커뮤니케이션, Sheets Reader 검증 실행
-- Supervisor/Workflow/Instagram Agent: 구조와 정책 중심의 초기 상태
+- Supervisor Agent: 로컬 규칙 기반 라우팅과 위험 작업 차단 검증 통과
+- Workflow/Instagram Agent: 구조와 정책 중심의 초기 상태
 
 ### 하네스 점검 결과
 
 - `python3 tests/harness/run_all.py`: 통과
 - 전체 하네스 점검이 통과했습니다.
 
+### Supervisor 라우팅 결과
+
+- 총 요청 수: 13
+- 차단된 요청 수: 7
+- 승인 필요 요청 수: 6
+- 라우팅 대상 에이전트 목록: assistant_report 1건, blocked 7건, communication 1건, document 1건, harness 1건, sheets_reader 1건, web_dashboard 1건
+- 위험 작업 차단 요약: req_block_email_send: 이메일 발송 요청이지만 명시적 사용자 승인이 없습니다. / req_block_slack_notification: Slack 또는 Telegram 알림 요청이지만 MVP 단계의 명시적 승인이 없습니다. / req_block_telegram_notification: Slack 또는 Telegram 알림 요청이지만 MVP 단계의 명시적 승인이 없습니다. / req_block_sheets_write: Google Sheets 쓰기/수정 계열 요청이지만 명시적 사용자 승인이 없습니다. / req_block_instagram_publish: Instagram 게시 요청이지만 권리 확인 또는 명시적 사용자 승인이 부족합니다.
+- 확인이 필요한 요청 요약: req_document_meeting_notes: 담당자, 마감일, 회사명, 숫자가 불명확하면 확인 필요로 표시 / req_communication_email_draft: 수신자, 회사명, 마감일, 금액, 약속 내용이 불명확하면 확인 필요로 표시 / req_sheets_reader_csv: 컬럼 의미, 누락값, 숫자 형식, 중복 의심값 확인 필요 / req_assistant_report_status: 보고서 기준 시점과 포함할 에이전트 범위 확인 필요 / req_harness_release_check: 점검 범위와 실패 시 처리 방식 확인 필요
+- 외부 실행 여부: 수행하지 않음
+
 ### 최근 커밋 요약
 
+- 1049c0b feat: add supervisor agent MVP
+- 0b8d80c feat: display assistant report on dashboard
 - 2ebe609 docs: record vercel dashboard deployment
 - d884853 fix: set Vercel framework preset to Next.js
 - fe89f4d chore: document Vercel preview settings
-- e195504 fix: resolve web dashboard postcss audit issue
-- ec60780 feat: add web dashboard scaffold
 
 ### 남은 리스크
 

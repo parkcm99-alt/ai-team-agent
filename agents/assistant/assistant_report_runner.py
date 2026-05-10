@@ -3,12 +3,16 @@ from __future__ import annotations
 
 import subprocess
 import sys
+import json
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[2]
 REPORT_FILE = ROOT / "reports/daily_status_report.md"
+SUPERVISOR_DECISIONS_FILE = ROOT / "examples/supervisor_outputs/sample_routing_decisions.jsonl"
 
 
 @dataclass
@@ -37,6 +41,18 @@ def run_command(command: list[str]) -> CommandResult:
 def write_text(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
+
+
+def read_jsonl(path: Path) -> list[dict[str, Any]]:
+    if not path.is_file():
+        return []
+    records: list[dict[str, Any]] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        records.append(json.loads(stripped))
+    return records
 
 
 def bullet_lines(items: list[str]) -> str:
@@ -69,6 +85,47 @@ def recent_commit_lines(output: str) -> list[str]:
     return lines[:5] or ["확인 필요"]
 
 
+def summarize_supervisor_decisions() -> list[str]:
+    decisions = read_jsonl(SUPERVISOR_DECISIONS_FILE)
+    if not decisions:
+        return [
+            "총 요청 수: 확인 필요",
+            "차단된 요청 수: 확인 필요",
+            "승인 필요 요청 수: 확인 필요",
+            "라우팅 대상 에이전트 목록: 확인 필요",
+            "위험 작업 차단 요약: Supervisor 라우팅 결과 파일 확인 필요",
+            "확인이 필요한 요청 요약: 확인 필요",
+            "외부 실행 여부: 수행하지 않음",
+        ]
+
+    total_count = len(decisions)
+    blocked_count = sum(1 for decision in decisions if bool(decision.get("blocked")))
+    approval_count = sum(1 for decision in decisions if bool(decision.get("approval_required")))
+    route_counts = Counter(str(decision.get("selected_agent", "확인 필요")) for decision in decisions)
+    route_summary = ", ".join(f"{agent} {count}건" for agent, count in sorted(route_counts.items()))
+
+    risky_blocked = [
+        f"{decision.get('id', 'unknown')}: {decision.get('reasoning', '확인 필요')}"
+        for decision in decisions
+        if bool(decision.get("blocked"))
+    ]
+    confirmation_needed = [
+        f"{decision.get('id', 'unknown')}: {decision.get('confirmation_needed', '확인 필요')}"
+        for decision in decisions
+        if "확인 필요" in str(decision.get("confirmation_needed", ""))
+    ]
+
+    return [
+        f"총 요청 수: {total_count}",
+        f"차단된 요청 수: {blocked_count}",
+        f"승인 필요 요청 수: {approval_count}",
+        f"라우팅 대상 에이전트 목록: {route_summary}",
+        f"위험 작업 차단 요약: {' / '.join(risky_blocked[:5]) if risky_blocked else '차단된 위험 작업 없음'}",
+        f"확인이 필요한 요청 요약: {' / '.join(confirmation_needed[:5]) if confirmation_needed else '확인 필요 요청 없음'}",
+        "외부 실행 여부: 수행하지 않음",
+    ]
+
+
 def render_report(
     git_status: CommandResult,
     git_log: CommandResult,
@@ -86,14 +143,16 @@ def render_report(
 
     git_summary = summarize_git_status(git_status.output)
     commits = recent_commit_lines(git_log.output)
+    supervisor_summary = summarize_supervisor_decisions()
     completed = [
         "Document Agent MVP와 검증 러너가 준비되어 있습니다.",
         "Communication Agent MVP, 워크플로 테스트, 로컬 러너가 준비되어 있습니다.",
         "Sheets Reader MVP가 로컬 CSV 읽기 전용으로 준비되어 있습니다.",
         "Assistant Report Agent MVP가 로컬 상태 보고서를 생성합니다.",
+        "Supervisor Agent MVP 라우팅 결과가 보고서에 반영됩니다.",
     ]
     if phase == "draft":
-        completed[-1] = "Assistant Report Agent MVP가 보고서 생성을 준비 중입니다."
+        completed[-2] = "Assistant Report Agent MVP가 보고서 생성을 준비 중입니다."
 
     return f"""# Assistant Report Agent Daily Status
 
@@ -118,11 +177,16 @@ AI 팀 에이전트 일일 상태 보고서
 - Communication Agent: 로컬 커뮤니케이션 요약, 워크플로, 검증 통과
 - Sheets Reader Agent: 로컬 CSV 읽기 전용 리포트 생성 및 검증 통과
 - Harness Agent: 정책, 리플레이, 문서, 커뮤니케이션, Sheets Reader 검증 실행
-- Supervisor/Workflow/Instagram Agent: 구조와 정책 중심의 초기 상태
+- Supervisor Agent: 로컬 규칙 기반 라우팅과 위험 작업 차단 검증 통과
+- Workflow/Instagram Agent: 구조와 정책 중심의 초기 상태
 
 ### 하네스 점검 결과
 
 {bullet_lines(harness_detail)}
+
+### Supervisor 라우팅 결과
+
+{bullet_lines(supervisor_summary)}
 
 ### 최근 커밋 요약
 

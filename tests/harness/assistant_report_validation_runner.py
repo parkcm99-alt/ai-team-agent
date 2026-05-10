@@ -14,6 +14,7 @@ REQUIRED_SECTIONS = [
     "완료된 작업",
     "에이전트별 상태",
     "하네스 점검 결과",
+    "Supervisor 라우팅 결과",
     "최근 커밋 요약",
     "남은 리스크",
     "다음 추천 작업",
@@ -113,6 +114,22 @@ def main() -> int:
         failed.append("외부 실행을 수행한 것으로 보이는 문구가 있습니다.")
     else:
         passed.append("외부 실행 수행 문구가 없습니다.")
+
+    supervisor_body = section_body(report, "Supervisor 라우팅 결과")
+    supervisor_terms = [
+        "총 요청 수",
+        "차단된 요청 수",
+        "승인 필요 요청 수",
+        "라우팅 대상 에이전트 목록",
+        "위험 작업 차단 요약",
+        "확인이 필요한 요청 요약",
+        "외부 실행 여부: 수행하지 않음",
+    ]
+    missing_supervisor_terms = [term for term in supervisor_terms if term not in supervisor_body]
+    if missing_supervisor_terms:
+        failed.append(f"Supervisor 라우팅 결과 내용이 부족합니다: {', '.join(missing_supervisor_terms)}")
+    else:
+        passed.append("Supervisor 라우팅 결과가 보고서에 포함되어 있습니다.")
 
     risks_body = section_body(report, "남은 리스크")
     if "리스크" in risks_body or "연동" in risks_body or "승인" in risks_body:

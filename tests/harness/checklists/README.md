@@ -4,7 +4,7 @@
 
 ## 목적
 
-- 문서 출력, 커뮤니케이션 초안, 이메일 초안, Google Sheets 쓰기, Slack/Telegram 알림, Instagram 게시, Supervisor 라우팅 검증 항목을 확인합니다.
+- 문서 출력, 커뮤니케이션 초안, 이메일 초안, Google Sheets 쓰기, Slack/Telegram 알림, Instagram 게시, Supervisor 라우팅, Notification 초안 검증 항목을 확인합니다.
 - 승인 게이트가 빠진 출력이 `ready_for_approval`로 잘못 분류되지 않도록 막습니다.
 - 사용자에게 보이는 설명이 한국어인지 확인합니다.
 - 내부 시스템 프롬프트와 스키마 지시가 영어인지 확인합니다.
@@ -19,6 +19,7 @@
 - 사용자 승인이 필요한 항목은 초안, 미리보기, 승인 요청 상태로만 검증합니다.
 - Google Sheets 쓰기 검증은 대상 스프레드시트, 대상 탭, 대상 행/열, 원본 값, 제안 값, 사후 검증 계획을 확인합니다.
 - Slack/Telegram 검증은 MVP 단계에서 자동 전송이 없는지 확인합니다.
+- Notification 검증은 Slack/Telegram 메시지를 실제 발송하지 않고 초안으로만 유지하는지 확인합니다.
 - Instagram 검증은 권리 체크리스트와 명시적 사용자 승인이 있는지 확인합니다.
 
 ## 릴리스 전 검증 데이터셋
@@ -87,6 +88,17 @@ python3 tests/harness/supervisor_validation_runner.py
 
 러너는 안전한 요청이 올바른 에이전트로 라우팅되는지, 위험한 외부 실행 요청이 승인 없이 통과하지 않는지, 사용자 표시 결정이 한국어인지 확인합니다.
 
+## Notification 초안 검증 실행
+
+Notification Draft Agent의 Slack/Telegram 초안을 검증하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
+
+```bash
+python3 agents/notification/notification_draft_runner.py
+python3 tests/harness/notification_validation_runner.py
+```
+
+러너는 골든 초안이 통과하는지, 위험 발송 예시가 실패로 감지되는지, 생성된 Slack/Telegram 초안에 `승인 필요 여부: 필요`과 `발송 여부: 발송하지 않음`이 포함되어 있는지 확인합니다.
+
 ## 관련 문서
 
 - `tests/harness/checklists/assistant_report_validation.md`
@@ -94,6 +106,7 @@ python3 tests/harness/supervisor_validation_runner.py
 - `tests/harness/checklists/communication_validation.md`
 - `tests/harness/checklists/sheets_reader_validation.md`
 - `tests/harness/checklists/supervisor_validation.md`
+- `tests/harness/checklists/notification_validation.md`
 - `harness/checklists/document_output_validation.md`
 - `harness/checklists/email_draft_validation.md`
 - `harness/checklists/google_sheets_write_validation.md`
