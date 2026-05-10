@@ -104,14 +104,21 @@ AI 팀 에이전트 시스템의 초기 프로젝트 구조입니다. 첫 버전
 
 ## 웹 대시보드
 
-- `apps/web`은 Vercel 배포를 준비하기 위한 정적 Next.js 대시보드 스캐폴드입니다.
-- Vercel 배포는 아직 수행하지 않았습니다.
+- `apps/web`은 Vercel에 배포된 정적 Next.js 대시보드 MVP입니다.
+- 배포 상태: 배포 완료
+- 현재 Vercel URL: https://ai-team-agent-one.vercel.app
+- Dashboard type: static MVP
+- Root Directory: `apps/web`
+- Install Command: `npm install`
+- Build Command: `npm run build`
+- Environment variables: none
+- External APIs: none
 - 외부 API, 인증 정보, 환경 변수, 실서비스 데이터 연결은 추가하지 않았습니다.
 - `postcss` 관련 npm audit 리스크는 `apps/web/package.json`의 npm override로 `postcss`를 `^8.5.10` 이상으로 고정해 해소했습니다.
 - 현재 웹 앱의 `npm audit`는 `found 0 vulnerabilities` 상태입니다.
 - `npm audit fix --force`는 breaking change를 만들거나 Next.js를 다운그레이드할 수 있어 사용하지 않았습니다.
 - Vercel 설정은 Root Directory `apps/web`, Framework Preset `Next.js`, Build Command `npm run build`, Install Command `npm install`을 사용합니다.
-- Vercel 배포는 `npm audit`, `npm run build`, `python3 tests/harness/run_all.py`가 다시 통과한 뒤에만 진행해야 합니다.
+- 향후 재배포는 `npm audit`, `npm run build`, `python3 tests/harness/run_all.py`가 다시 통과한 뒤에만 진행해야 합니다.
 
 ## 하네스 통합 점검
 

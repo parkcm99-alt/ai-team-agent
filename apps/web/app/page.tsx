@@ -28,14 +28,12 @@ const agentStatuses = [
 
 const risks = [
   "아직 외부 API와 인증 정보가 연결되지 않았습니다.",
-  "Vercel 배포 전 로컬 하네스와 Next.js 빌드 검증이 필요합니다.",
+  "Vercel 배포 후에도 로컬 하네스와 Next.js 빌드 검증을 계속 유지해야 합니다.",
   "실제 이메일, Slack/Telegram, Google Sheets, Instagram 작업은 승인 게이트가 필요합니다.",
 ];
 
 const nextTasks = [
-  "로컬에서 `python3 tests/harness/run_all.py`를 다시 실행합니다.",
-  "패키지 설치 후 `npm run build`를 별도 검증합니다.",
-  "배포 전 환경 변수와 외부 실행 정책을 문서로 확정합니다.",
+  "Vercel 배포 상태를 기록하고, reports/daily_status_report.md 내용을 대시보드에 반영합니다.",
 ];
 
 const externalActions = [
@@ -50,7 +48,7 @@ export default function Home() {
     <main className="dashboard-shell">
       <section className="hero-section" aria-labelledby="dashboard-title">
         <div>
-          <p className="eyebrow">Vercel 준비용 정적 MVP</p>
+          <p className="eyebrow">Vercel 배포 완료 정적 MVP</p>
           <h1 id="dashboard-title">AI 팀 에이전트 상태</h1>
           <p className="hero-copy">
             로컬 하네스와 에이전트 산출물을 기준으로 현재 프로젝트 상태를 한눈에 확인합니다.
@@ -58,7 +56,7 @@ export default function Home() {
         </div>
         <div className="status-panel" aria-label="현재 배포 상태">
           <span className="status-dot" />
-          <strong>배포 전</strong>
+          <strong>배포 완료</strong>
           <span>외부 API 연결 없음</span>
         </div>
       </section>
@@ -144,7 +142,7 @@ export default function Home() {
         <article className="content-section" aria-labelledby="next-title">
           <div className="section-heading">
             <h2 id="next-title">다음 추천 작업</h2>
-            <p>Vercel 배포 전 로컬 안정성을 먼저 확인합니다.</p>
+            <p>배포 상태를 기준으로 다음 운영 기록을 정리합니다.</p>
           </div>
           <ol className="number-list">
             {nextTasks.map((task) => (

@@ -1,13 +1,16 @@
 # AI Team Agent Web Dashboard
 
-이 디렉터리는 Vercel 배포를 준비하기 위한 Next.js 정적 대시보드 스캐폴드입니다.
+이 디렉터리는 Vercel에 배포된 Next.js 정적 대시보드 MVP입니다.
 
 ## 현재 범위
 
 - `apps/web` 아래에 App Router 기반 Next.js 구조를 준비했습니다.
-- 대시보드는 로컬 MVP용 정적 페이지입니다.
+- 대시보드는 static MVP입니다.
 - 외부 API, 인증 정보, 비밀값, 실서비스 데이터 연결은 없습니다.
-- Vercel 배포는 아직 수행하지 않습니다.
+- 배포 상태: 배포 완료
+- 현재 Vercel URL: https://ai-team-agent-one.vercel.app
+- Environment variables: none
+- External APIs: none
 
 ## npm audit 상태
 
@@ -47,5 +50,5 @@ npm run build
 - `python3 tests/harness/run_all.py`가 통과해야 합니다.
 - 외부 실행 정책과 승인 게이트가 문서화되어야 합니다.
 - 이메일, Slack/Telegram, Google Sheets, Instagram 연동은 별도 승인 전까지 연결하지 않습니다.
-- Vercel 배포는 로컬 점검과 사용자 승인 이후에만 진행합니다.
+- 향후 재배포는 로컬 점검과 사용자 승인 이후에만 진행합니다.
 - `npm audit`와 `npm run build`가 배포 직전에 통과해야 합니다.
