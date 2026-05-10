@@ -15,9 +15,27 @@ type ReportData = {
     label: string;
     value: string;
   }>;
+  supervisorRouting: {
+    totalRequests: string;
+    blockedRequests: string;
+    approvalRequiredRequests: string;
+    routeTargets: string;
+    riskBlockSummary: string[];
+    externalExecution: string;
+  };
+  notificationDraft: {
+    slackDraft: string;
+    telegramDraft: string;
+    approvalRequired: string;
+    sendStatus: string;
+    externalApi: string;
+    confirmations: string[];
+    risks: string[];
+  };
 };
 
 // TODO: Automate syncing from reports/daily_status_report.md.
+// TODO: Automate syncing Supervisor and Notification results from local reports.
 const assistantReport: ReportData = {
   title: "AI 팀 에이전트 일일 상태 보고서",
   overallStatus: [
@@ -30,6 +48,8 @@ const assistantReport: ReportData = {
     "Communication Agent MVP, 워크플로 테스트, 로컬 러너가 준비되어 있습니다.",
     "Sheets Reader MVP가 로컬 CSV 읽기 전용으로 준비되어 있습니다.",
     "Assistant Report Agent MVP가 로컬 상태 보고서를 생성합니다.",
+    "Supervisor Agent MVP 라우팅 결과가 보고서와 대시보드에 반영됩니다.",
+    "Notification Draft Agent MVP가 Slack/Telegram 초안 상태를 표시합니다.",
   ],
   agentStatus: [
     {
@@ -53,7 +73,15 @@ const assistantReport: ReportData = {
       status: "정책, 리플레이, 문서, 커뮤니케이션, Sheets Reader 검증 실행",
     },
     {
-      name: "Supervisor/Workflow/Instagram Agent",
+      name: "Supervisor Agent",
+      status: "로컬 규칙 기반 라우팅과 위험 작업 차단 검증 통과",
+    },
+    {
+      name: "Notification Draft Agent",
+      status: "Slack/Telegram 초안 생성, 발송 미수행, 승인 필요 상태",
+    },
+    {
+      name: "Workflow/Instagram Agent",
       status: "구조와 정책 중심의 초기 상태",
     },
   ],
@@ -62,11 +90,11 @@ const assistantReport: ReportData = {
     "전체 하네스 점검이 통과했습니다.",
   ],
   recentCommits: [
+    "3809520 feat: add notification draft agent MVP",
+    "1049c0b feat: add supervisor agent MVP",
+    "0b8d80c feat: display assistant report on dashboard",
     "2ebe609 docs: record vercel dashboard deployment",
     "d884853 fix: set Vercel framework preset to Next.js",
-    "fe89f4d chore: document Vercel preview settings",
-    "e195504 fix: resolve web dashboard postcss audit issue",
-    "ec60780 feat: add web dashboard scaffold",
   ],
   remainingRisks: [
     "현재 보고서는 로컬 명령 결과 기반이며 외부 서비스 상태는 확인하지 않습니다.",
@@ -105,6 +133,37 @@ const assistantReport: ReportData = {
       value: "수행하지 않음",
     },
   ],
+  supervisorRouting: {
+    totalRequests: "13",
+    blockedRequests: "7",
+    approvalRequiredRequests: "6",
+    routeTargets:
+      "assistant_report 1건, blocked 7건, communication 1건, document 1건, harness 1건, sheets_reader 1건, web_dashboard 1건",
+    riskBlockSummary: [
+      "승인 없는 이메일 발송 요청을 차단했습니다.",
+      "승인 없는 Slack/Telegram 알림 요청을 차단했습니다.",
+      "승인 없는 Google Sheets 쓰기와 Instagram 게시 요청을 차단했습니다.",
+      "명시적 승인 없는 외부 API 연결 요청을 차단했습니다.",
+    ],
+    externalExecution: "수행하지 않음",
+  },
+  notificationDraft: {
+    slackDraft: "Slack 상태 보고 초안 생성 완료",
+    telegramDraft: "Telegram 긴급 알림 승인 요청 초안 생성 완료",
+    approvalRequired: "필요",
+    sendStatus: "발송하지 않음",
+    externalApi: "연결하지 않음",
+    confirmations: [
+      "수신 채널 또는 수신자: 확인 필요",
+      "승인 담당자: 확인 필요",
+      "긴급도와 마감일: 확인 필요",
+    ],
+    risks: [
+      "승인 전 Slack/Telegram 전송 금지",
+      "외부 API 연결 없음",
+      "실제 알림 발송은 승인 게이트 이후 별도 검증 필요",
+    ],
+  },
 };
 
 function BulletList({ items }: { items: string[] }) {
@@ -208,6 +267,78 @@ export default function Home() {
               <li key={commit}>{commit}</li>
             ))}
           </ol>
+        </article>
+      </section>
+
+      <section className="two-column">
+        <article className="content-section" aria-labelledby="supervisor-title">
+          <div className="section-heading">
+            <h2 id="supervisor-title">Supervisor 라우팅 상태</h2>
+            <p>로컬 라우팅 결과와 위험 작업 차단 상태입니다.</p>
+          </div>
+          <dl className="action-list">
+            <div>
+              <dt>총 요청 수</dt>
+              <dd>{assistantReport.supervisorRouting.totalRequests}</dd>
+            </div>
+            <div>
+              <dt>차단된 요청 수</dt>
+              <dd>{assistantReport.supervisorRouting.blockedRequests}</dd>
+            </div>
+            <div>
+              <dt>승인 필요 요청 수</dt>
+              <dd>{assistantReport.supervisorRouting.approvalRequiredRequests}</dd>
+            </div>
+            <div>
+              <dt>외부 실행 여부</dt>
+              <dd>{assistantReport.supervisorRouting.externalExecution}</dd>
+            </div>
+          </dl>
+          <div className="detail-block">
+            <h3>라우팅 대상 에이전트 목록</h3>
+            <p>{assistantReport.supervisorRouting.routeTargets}</p>
+          </div>
+          <div className="detail-block">
+            <h3>위험 작업 차단 요약</h3>
+            <BulletList items={assistantReport.supervisorRouting.riskBlockSummary} />
+          </div>
+        </article>
+
+        <article className="content-section" aria-labelledby="notification-title">
+          <div className="section-heading">
+            <h2 id="notification-title">Notification 초안 상태</h2>
+            <p>Slack/Telegram 발송 없이 검토용 초안만 표시합니다.</p>
+          </div>
+          <dl className="action-list">
+            <div>
+              <dt>Slack 상태 보고 초안</dt>
+              <dd>{assistantReport.notificationDraft.slackDraft}</dd>
+            </div>
+            <div>
+              <dt>Telegram 긴급 알림 초안</dt>
+              <dd>{assistantReport.notificationDraft.telegramDraft}</dd>
+            </div>
+            <div>
+              <dt>승인 필요 여부</dt>
+              <dd>{assistantReport.notificationDraft.approvalRequired}</dd>
+            </div>
+            <div>
+              <dt>발송 여부</dt>
+              <dd>{assistantReport.notificationDraft.sendStatus}</dd>
+            </div>
+            <div>
+              <dt>외부 API 연결 여부</dt>
+              <dd>{assistantReport.notificationDraft.externalApi}</dd>
+            </div>
+          </dl>
+          <div className="detail-block">
+            <h3>확인이 필요한 부분</h3>
+            <BulletList items={assistantReport.notificationDraft.confirmations} />
+          </div>
+          <div className="detail-block">
+            <h3>위험 요소</h3>
+            <BulletList items={assistantReport.notificationDraft.risks} />
+          </div>
         </article>
       </section>
 

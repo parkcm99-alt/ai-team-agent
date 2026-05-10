@@ -7,8 +7,12 @@
 - `apps/web` 아래에 App Router 기반 Next.js 구조를 준비했습니다.
 - 대시보드는 static MVP입니다.
 - Assistant Report Agent의 `reports/daily_status_report.md` 주요 항목을 대시보드에 반영합니다.
+- Supervisor 라우팅 상태를 대시보드에 표시합니다.
+- Notification Draft Agent의 Slack/Telegram 초안 상태를 대시보드에 표시합니다.
 - 현재 보고서 연동은 정적/build-time 방식입니다.
 - 외부 API, 인증 정보, 비밀값, 실서비스 데이터 연결은 없습니다.
+- Slack/Telegram 실제 발송은 연결하지 않았습니다.
+- 모든 외부 실행 작업은 계속 승인 게이트 또는 차단 상태입니다.
 - 배포 상태: 배포 완료
 - 현재 Vercel URL: https://ai-team-agent-one.vercel.app
 - Environment variables: none

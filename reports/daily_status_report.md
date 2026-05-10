@@ -45,11 +45,11 @@ AI 팀 에이전트 일일 상태 보고서
 
 ### 최근 커밋 요약
 
+- 3809520 feat: add notification draft agent MVP
 - 1049c0b feat: add supervisor agent MVP
 - 0b8d80c feat: display assistant report on dashboard
 - 2ebe609 docs: record vercel dashboard deployment
 - d884853 fix: set Vercel framework preset to Next.js
-- fe89f4d chore: document Vercel preview settings
 
 ### 남은 리스크
 

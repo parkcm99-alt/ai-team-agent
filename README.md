@@ -120,6 +120,10 @@ AI 팀 에이전트 시스템의 초기 프로젝트 구조입니다. 첫 버전
 - External APIs: none
 - 외부 API, 인증 정보, 환경 변수, 실서비스 데이터 연결은 추가하지 않았습니다.
 - 대시보드는 Assistant Report Agent가 생성한 `reports/daily_status_report.md`의 주요 항목을 표시합니다.
+- 대시보드는 Supervisor 라우팅 상태를 표시합니다.
+- 대시보드는 Notification Draft Agent의 Slack/Telegram 초안 상태를 표시합니다.
+- Slack/Telegram 실제 발송은 연결하지 않았습니다.
+- 모든 외부 실행 작업은 계속 승인 게이트 또는 차단 상태로 유지합니다.
 - 현재 보고서 연동은 정적/build-time 방식이며, 외부 API나 런타임 파일 동기화는 사용하지 않습니다.
 - `postcss` 관련 npm audit 리스크는 `apps/web/package.json`의 npm override로 `postcss`를 `^8.5.10` 이상으로 고정해 해소했습니다.
 - 현재 웹 앱의 `npm audit`는 `found 0 vulnerabilities` 상태입니다.
