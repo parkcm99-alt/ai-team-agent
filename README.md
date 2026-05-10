@@ -43,7 +43,7 @@ AI 팀 에이전트 시스템의 초기 프로젝트 구조입니다. 첫 버전
 
 ## 에이전트 역할
 
-- `supervisor`: 작업 분배, 정책 적용, 결과 통합을 담당합니다.
+- `supervisor`: 작업 분배, 정책 적용, 결과 통합을 담당하며 로컬 MVP 라우터로 요청을 `document`, `communication`, `sheets_reader`, `assistant_report`, `harness`, `web_dashboard`, `blocked` 중 하나로 분류합니다.
 - `assistant`: 일반 지원, 사용자 요청 정리, 간단한 산출물 초안을 담당합니다.
 - `document`: 문서 생성, 요약, 구조화된 문서 산출을 담당합니다.
 - `communication`: 이메일, 메신저, 알림 등 커뮤니케이션 흐름을 담당할 예정입니다.
@@ -124,7 +124,7 @@ AI 팀 에이전트 시스템의 초기 프로젝트 구조입니다. 첫 버전
 
 ## 하네스 통합 점검
 
-하네스 정책, 리플레이 데이터셋, 문서 검증, 문서 워크플로, 커뮤니케이션 검증, 커뮤니케이션 워크플로, Sheets Reader 검증, Assistant Report 검증, Python 문법 검사를 한 번에 실행하려면 다음 명령어를 사용합니다.
+하네스 정책, 리플레이 데이터셋, 문서 검증, 문서 워크플로, 커뮤니케이션 검증, 커뮤니케이션 워크플로, Sheets Reader 검증, Assistant Report 검증, Supervisor 라우팅 검증, Python 문법 검사를 한 번에 실행하려면 다음 명령어를 사용합니다.
 
 ```bash
 python3 tests/harness/run_all.py
@@ -137,3 +137,10 @@ python3 tests/harness/policy_checker.py
 ```
 
 통합 점검은 결과를 한국어로 출력합니다. 하위 점검 중 하나라도 실패하면 0이 아닌 종료 코드를 반환합니다.
+
+Supervisor Agent MVP 라우터만 실행하려면 다음 명령어를 사용합니다.
+
+```bash
+python3 agents/supervisor/supervisor_router.py
+python3 tests/harness/supervisor_validation_runner.py
+```

@@ -4,7 +4,7 @@
 
 ## 목적
 
-- 문서 출력, 커뮤니케이션 초안, 이메일 초안, Google Sheets 쓰기, Slack/Telegram 알림, Instagram 게시 검증 항목을 확인합니다.
+- 문서 출력, 커뮤니케이션 초안, 이메일 초안, Google Sheets 쓰기, Slack/Telegram 알림, Instagram 게시, Supervisor 라우팅 검증 항목을 확인합니다.
 - 승인 게이트가 빠진 출력이 `ready_for_approval`로 잘못 분류되지 않도록 막습니다.
 - 사용자에게 보이는 설명이 한국어인지 확인합니다.
 - 내부 시스템 프롬프트와 스키마 지시가 영어인지 확인합니다.
@@ -76,12 +76,24 @@ python3 tests/harness/assistant_report_validation_runner.py
 
 러너는 `reports/daily_status_report.md`가 필수 한국어 섹션, 외부 실행 미수행 문구, 남은 리스크, 다음 추천 작업, 승인 필요 항목을 포함하는지 확인합니다.
 
+## Supervisor 라우팅 검증 실행
+
+Supervisor Agent의 샘플 요청 라우팅 결과를 검증하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
+
+```bash
+python3 agents/supervisor/supervisor_router.py
+python3 tests/harness/supervisor_validation_runner.py
+```
+
+러너는 안전한 요청이 올바른 에이전트로 라우팅되는지, 위험한 외부 실행 요청이 승인 없이 통과하지 않는지, 사용자 표시 결정이 한국어인지 확인합니다.
+
 ## 관련 문서
 
 - `tests/harness/checklists/assistant_report_validation.md`
 - `tests/harness/checklists/document_validation.md`
 - `tests/harness/checklists/communication_validation.md`
 - `tests/harness/checklists/sheets_reader_validation.md`
+- `tests/harness/checklists/supervisor_validation.md`
 - `harness/checklists/document_output_validation.md`
 - `harness/checklists/email_draft_validation.md`
 - `harness/checklists/google_sheets_write_validation.md`

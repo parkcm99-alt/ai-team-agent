@@ -18,6 +18,7 @@ COMMANDS = [
     ["python3", "tests/harness/communication_workflow_runner.py"],
     ["python3", "tests/harness/sheets_reader_validation_runner.py"],
     ["python3", "tests/harness/assistant_report_validation_runner.py"],
+    ["python3", "tests/harness/supervisor_validation_runner.py"],
     ["python3", "-m", "py_compile", "tests/harness/policy_checker.py"],
     ["python3", "-m", "py_compile", "tests/harness/replay_runner.py"],
     ["python3", "-m", "py_compile", "tests/harness/document_validation_runner.py"],
@@ -26,8 +27,10 @@ COMMANDS = [
     ["python3", "-m", "py_compile", "tests/harness/communication_workflow_runner.py"],
     ["python3", "-m", "py_compile", "tests/harness/sheets_reader_validation_runner.py"],
     ["python3", "-m", "py_compile", "tests/harness/assistant_report_validation_runner.py"],
+    ["python3", "-m", "py_compile", "tests/harness/supervisor_validation_runner.py"],
     ["python3", "-m", "py_compile", "agents/assistant/assistant_report_runner.py"],
     ["python3", "-m", "py_compile", "agents/sheets/sheets_reader_runner.py"],
+    ["python3", "-m", "py_compile", "agents/supervisor/supervisor_router.py"],
 ]
 
 
