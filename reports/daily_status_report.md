@@ -33,11 +33,11 @@ AI 팀 에이전트 일일 상태 보고서
 
 ### 최근 커밋 요약
 
-- 1b7fdf3 feat: add sheets reader MVP
-- 5e21027 feat: add communication agent local runner
-- 103de39 feat: add communication agent workflow test
-- e7e4bf1 feat: add communication agent MVP validation
-- b32c123 Merge remote-tracking branch 'origin/main'
+- 2ebe609 docs: record vercel dashboard deployment
+- d884853 fix: set Vercel framework preset to Next.js
+- fe89f4d chore: document Vercel preview settings
+- e195504 fix: resolve web dashboard postcss audit issue
+- ec60780 feat: add web dashboard scaffold
 
 ### 남은 리스크
 
