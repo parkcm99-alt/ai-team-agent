@@ -4,7 +4,7 @@
 
 ## 목적
 
-- 문서 출력, 커뮤니케이션 초안, 이메일 초안, Google Sheets 쓰기, Slack/Telegram 알림, Instagram 게시, Supervisor 라우팅, Notification 초안 검증 항목을 확인합니다.
+- 문서 출력, 커뮤니케이션 초안, 이메일 초안, Google Sheets 쓰기 승인 요청, Slack/Telegram 알림, Instagram 게시, Supervisor 라우팅, Notification 초안 검증 항목을 확인합니다.
 - 승인 게이트가 빠진 출력이 `ready_for_approval`로 잘못 분류되지 않도록 막습니다.
 - 사용자에게 보이는 설명이 한국어인지 확인합니다.
 - 내부 시스템 프롬프트와 스키마 지시가 영어인지 확인합니다.
@@ -18,6 +18,7 @@
 - 이메일 발송, Google Sheets 쓰기, Slack/Telegram 알림, Instagram 게시 테스트는 실제 외부 작업을 실행하지 않습니다.
 - 사용자 승인이 필요한 항목은 초안, 미리보기, 승인 요청 상태로만 검증합니다.
 - Google Sheets 쓰기 검증은 대상 스프레드시트, 대상 탭, 대상 행/열, 원본 값, 제안 값, 사후 검증 계획을 확인합니다.
+- Sheets Write Approval 검증은 실제 쓰기를 수행하지 않고 승인 요청서만 생성하는지 확인합니다.
 - Slack/Telegram 검증은 MVP 단계에서 자동 전송이 없는지 확인합니다.
 - Notification 검증은 Slack/Telegram 메시지를 실제 발송하지 않고 초안으로만 유지하는지 확인합니다.
 - Instagram 검증은 권리 체크리스트와 명시적 사용자 승인이 있는지 확인합니다.
@@ -67,6 +68,17 @@ python3 tests/harness/sheets_reader_validation_runner.py
 
 러너는 `examples/sheets_outputs/sample_play_count_report.md`가 필수 한국어 섹션, 쓰기 미수행 문구, 누락값, 중복 의심값, 숫자 형식 오류를 올바르게 포함하는지 확인합니다.
 
+## Sheets Write Approval 검증 실행
+
+Sheets Write Approval Agent의 로컬 승인 요청서를 검증하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
+
+```bash
+python3 agents/sheets_write/sheets_write_approval_runner.py
+python3 tests/harness/sheets_write_approval_validation_runner.py
+```
+
+러너는 골든 승인 요청 예시가 통과하는지, 승인 없는 실제 쓰기 예시가 실패로 감지되는지, 생성된 승인 요청서에 대상 스프레드시트, 탭, 행, 열, 원본 값, 제안 값, 승인 필요 여부, 쓰기 미수행, Google Sheets API 미연결, 사후 검증 계획이 포함되는지 확인합니다.
+
 ## Assistant Report 검증 실행
 
 Assistant Report Agent의 로컬 상태 보고서를 검증하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
@@ -105,6 +117,7 @@ python3 tests/harness/notification_validation_runner.py
 - `tests/harness/checklists/document_validation.md`
 - `tests/harness/checklists/communication_validation.md`
 - `tests/harness/checklists/sheets_reader_validation.md`
+- `tests/harness/checklists/sheets_write_approval_validation.md`
 - `tests/harness/checklists/supervisor_validation.md`
 - `tests/harness/checklists/notification_validation.md`
 - `harness/checklists/document_output_validation.md`
