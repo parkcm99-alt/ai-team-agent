@@ -4,7 +4,7 @@
 
 ## 목적
 
-- 문서 출력, 커뮤니케이션 초안, 이메일 초안, Google Sheets 쓰기 승인 요청, Slack/Telegram 알림, Instagram 게시, Supervisor 라우팅, Notification 초안 검증 항목을 확인합니다.
+- 문서 출력, 커뮤니케이션 초안, Email Draft 초안, Google Sheets 쓰기 승인 요청, Slack/Telegram 알림, Instagram 게시, Supervisor 라우팅, Notification 초안 검증 항목을 확인합니다.
 - 승인 게이트가 빠진 출력이 `ready_for_approval`로 잘못 분류되지 않도록 막습니다.
 - 사용자에게 보이는 설명이 한국어인지 확인합니다.
 - 내부 시스템 프롬프트와 스키마 지시가 영어인지 확인합니다.
@@ -16,6 +16,7 @@
 - 체크리스트 이름과 내부 키는 영어를 사용할 수 있습니다.
 - 사용자에게 보이는 검토 결과와 설명은 한국어로 작성합니다.
 - 이메일 발송, Google Sheets 쓰기, Slack/Telegram 알림, Instagram 게시 테스트는 실제 외부 작업을 실행하지 않습니다.
+- Email Draft 검증은 Gmail API 연결, 실제 이메일 발송, Gmail API 초안 생성을 수행하지 않는지 확인합니다.
 - 사용자 승인이 필요한 항목은 초안, 미리보기, 승인 요청 상태로만 검증합니다.
 - Google Sheets 쓰기 검증은 대상 스프레드시트, 대상 탭, 대상 행/열, 원본 값, 제안 값, 사후 검증 계획을 확인합니다.
 - Sheets Write Approval 검증은 실제 쓰기를 수행하지 않고 승인 요청서만 생성하는지 확인합니다.
@@ -57,6 +58,17 @@ python3 tests/harness/communication_workflow_runner.py
 ```
 
 러너는 `examples/communication_outputs` 아래의 모든 Markdown 출력이 커뮤니케이션 에이전트 형식과 승인 게이트 기준을 만족하는지 확인합니다.
+
+## Email Draft 검증 실행
+
+Email Draft Agent의 로컬 이메일 요약, 답장 초안, 승인 요청서를 검증하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
+
+```bash
+python3 agents/email/email_draft_runner.py
+python3 tests/harness/email_draft_validation_runner.py
+```
+
+러너는 골든 이메일 초안이 통과하는지, 위험 발송 예시가 실패로 감지되는지, 생성된 이메일 출력에 `발송 여부: 발송하지 않음`, `승인 필요 여부: 필요`, `Gmail API 연결 여부: 연결하지 않음`, `확인 필요` 표시가 포함되는지 확인합니다.
 
 ## Sheets Reader 검증 실행
 
@@ -116,6 +128,7 @@ python3 tests/harness/notification_validation_runner.py
 - `tests/harness/checklists/assistant_report_validation.md`
 - `tests/harness/checklists/document_validation.md`
 - `tests/harness/checklists/communication_validation.md`
+- `tests/harness/checklists/email_draft_validation.md`
 - `tests/harness/checklists/sheets_reader_validation.md`
 - `tests/harness/checklists/sheets_write_approval_validation.md`
 - `tests/harness/checklists/supervisor_validation.md`
