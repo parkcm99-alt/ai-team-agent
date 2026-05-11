@@ -4,7 +4,7 @@
 
 ## 목적
 
-- 문서 출력, 커뮤니케이션 초안, Email Draft 초안, Google Sheets 쓰기 승인 요청, Slack/Telegram 알림, Instagram 게시, Supervisor 라우팅, Notification 초안 검증 항목을 확인합니다.
+- 문서 출력, 커뮤니케이션 초안, Email Draft 초안, Google Sheets 쓰기 승인 요청, Slack/Telegram 알림, Workflow Instagram 게시 승인 준비, Supervisor 라우팅, Notification 초안 검증 항목을 확인합니다.
 - 승인 게이트가 빠진 출력이 `ready_for_approval`로 잘못 분류되지 않도록 막습니다.
 - 사용자에게 보이는 설명이 한국어인지 확인합니다.
 - 내부 시스템 프롬프트와 스키마 지시가 영어인지 확인합니다.
@@ -23,6 +23,7 @@
 - Slack/Telegram 검증은 MVP 단계에서 자동 전송이 없는지 확인합니다.
 - Notification 검증은 Slack/Telegram 메시지를 실제 발송하지 않고 초안으로만 유지하는지 확인합니다.
 - Instagram 검증은 권리 체크리스트와 명시적 사용자 승인이 있는지 확인합니다.
+- Workflow Instagram 검증은 실제 게시 없이 승인 요청서와 음악 권리 체크리스트만 생성하는지 확인합니다.
 
 ## 릴리스 전 검증 데이터셋
 
@@ -91,6 +92,17 @@ python3 tests/harness/sheets_write_approval_validation_runner.py
 
 러너는 골든 승인 요청 예시가 통과하는지, 승인 없는 실제 쓰기 예시가 실패로 감지되는지, 생성된 승인 요청서에 대상 스프레드시트, 탭, 행, 열, 원본 값, 제안 값, 승인 필요 여부, 쓰기 미수행, Google Sheets API 미연결, 사후 검증 계획이 포함되는지 확인합니다.
 
+## Workflow Instagram 검증 실행
+
+Workflow Agent의 계획, Instagram 게시 승인 요청서, 음악 권리 체크리스트를 검증하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
+
+```bash
+python3 agents/workflow/workflow_runner.py
+python3 tests/harness/workflow_instagram_validation_runner.py
+```
+
+러너는 골든 Instagram 승인 예시가 통과하는지, 위험 게시 예시가 실패로 감지되는지, 생성된 워크플로 계획과 Instagram 승인 요청서에 게시 미수행, Instagram API 미연결, 게시 승인 필요, 음악 권리 확인 필요, track_id와 상업적 사용 가능 여부 확인 항목이 포함되는지 확인합니다.
+
 ## Assistant Report 검증 실행
 
 Assistant Report Agent의 로컬 상태 보고서를 검증하려면 프로젝트 루트에서 다음 명령어를 실행합니다.
@@ -131,6 +143,7 @@ python3 tests/harness/notification_validation_runner.py
 - `tests/harness/checklists/email_draft_validation.md`
 - `tests/harness/checklists/sheets_reader_validation.md`
 - `tests/harness/checklists/sheets_write_approval_validation.md`
+- `tests/harness/checklists/workflow_instagram_validation.md`
 - `tests/harness/checklists/supervisor_validation.md`
 - `tests/harness/checklists/notification_validation.md`
 - `harness/checklists/document_output_validation.md`

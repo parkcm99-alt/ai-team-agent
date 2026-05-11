@@ -55,7 +55,7 @@ AI 팀 에이전트 시스템의 초기 프로젝트 구조입니다. 첫 버전
 - `notification`: Slack/Telegram 메시지 초안만 생성하며 실제 발송은 하지 않습니다.
 - `sheets`: 로컬 CSV 샘플을 읽기 전용으로 분석하며 Google Sheets API에 연결하지 않습니다.
 - `sheets_write`: Google Sheets 쓰기 제안을 승인 요청서로만 변환하며 실제 쓰기는 수행하지 않습니다.
-- `workflow`: 반복 업무, 상태 전이, 작업 순서를 관리할 예정입니다.
+- `workflow`: 아이디어를 실행 계획, 테스트, 결과 검토, 승인 준비로 정리하고 Instagram 게시 승인 준비 문서를 생성합니다.
 - `harness`: 테스트 실행, 평가 기준, 회귀 검증을 담당할 예정입니다.
 - `instagram`: Instagram 관련 콘텐츠 준비와 게시 흐름을 담당할 예정입니다.
 
@@ -108,6 +108,11 @@ AI 팀 에이전트 시스템의 초기 프로젝트 구조입니다. 첫 버전
 - 콘텐츠 캘린더, 캡션 초안, 해시태그 추천 범위를 정의합니다.
 - 게시 권한과 승인 절차를 분리합니다.
 - 이미지/영상 자산 검증 규칙을 추가합니다.
+- Workflow Agent는 아이디어를 계획, 테스트, 결과 검토 흐름으로 정리합니다.
+- Instagram 게시 준비는 승인 요청서와 음악 권리 체크리스트까지만 생성합니다.
+- Instagram API와 Meta Graph API는 아직 연결하지 않았습니다.
+- 실제 Instagram 게시와 미디어 업로드는 차단되어 있습니다.
+- 향후 게시 전에는 track_id 기준 음악 권리, 상업적 사용 가능 여부, 샘플/커버/리믹스 여부를 확인해야 합니다.
 
 ### Reporting
 
@@ -158,7 +163,7 @@ AI 팀 에이전트 시스템의 초기 프로젝트 구조입니다. 첫 버전
 
 ## 하네스 통합 점검
 
-하네스 정책, 리플레이 데이터셋, 문서 검증, 문서 워크플로, 커뮤니케이션 검증, 커뮤니케이션 워크플로, Email Draft 검증, Sheets Reader 검증, Sheets Write Approval 검증, Assistant Report 검증, Supervisor 라우팅 검증, Notification 초안 검증, Python 문법 검사를 한 번에 실행하려면 다음 명령어를 사용합니다.
+하네스 정책, 리플레이 데이터셋, 문서 검증, 문서 워크플로, 커뮤니케이션 검증, 커뮤니케이션 워크플로, Email Draft 검증, Sheets Reader 검증, Sheets Write Approval 검증, Workflow Instagram 검증, Assistant Report 검증, Supervisor 라우팅 검증, Notification 초안 검증, Python 문법 검사를 한 번에 실행하려면 다음 명령어를 사용합니다.
 
 ```bash
 python3 tests/harness/run_all.py
@@ -198,4 +203,11 @@ Sheets Write Approval Flow MVP 승인 요청서 생성과 검증만 실행하려
 ```bash
 python3 agents/sheets_write/sheets_write_approval_runner.py
 python3 tests/harness/sheets_write_approval_validation_runner.py
+```
+
+Workflow Instagram Policy MVP 계획, 게시 승인 요청서, 음악 권리 체크리스트 생성과 검증만 실행하려면 다음 명령어를 사용합니다.
+
+```bash
+python3 agents/workflow/workflow_runner.py
+python3 tests/harness/workflow_instagram_validation_runner.py
 ```
