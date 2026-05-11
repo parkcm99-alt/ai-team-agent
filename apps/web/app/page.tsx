@@ -32,6 +32,20 @@ type ReportData = {
     confirmations: string[];
     risks: string[];
   };
+  emailDraft: {
+    summaryGenerated: string;
+    replyDraftGenerated: string;
+    approvalRequestGenerated: string;
+    sendStatus: string;
+    approvalRequired: string;
+    gmailApiStatus: string;
+    recipient: string;
+    companyName: string;
+    majorRequests: string[];
+    nextActions: string[];
+    confirmations: string[];
+    risks: string[];
+  };
   sheetsWriteApproval: {
     approvalRequired: string;
     actualWriteStatus: string;
@@ -53,6 +67,7 @@ type ReportData = {
 // TODO: Automate syncing from reports/daily_status_report.md.
 // TODO: Automate syncing Supervisor and Notification results from local reports.
 // TODO: Automate syncing Sheets Write Approval status from local approval reports.
+// TODO: Automate syncing Email Draft status from local email outputs.
 const assistantReport: ReportData = {
   title: "AI 팀 에이전트 일일 상태 보고서",
   overallStatus: [
@@ -64,6 +79,7 @@ const assistantReport: ReportData = {
   completedWork: [
     "Document Agent MVP와 검증 러너가 준비되어 있습니다.",
     "Communication Agent MVP, 워크플로 테스트, 로컬 러너가 준비되어 있습니다.",
+    "Email Draft Workflow MVP가 로컬 이메일 요약, 답장 초안, 승인 요청서를 생성합니다.",
     "Sheets Reader MVP가 로컬 CSV 읽기 전용으로 준비되어 있습니다.",
     "Sheets Write Approval Flow MVP가 실제 쓰기 없이 승인 요청서를 생성합니다.",
     "Assistant Report Agent MVP가 로컬 상태 보고서를 생성합니다.",
@@ -84,6 +100,10 @@ const assistantReport: ReportData = {
       status: "로컬 커뮤니케이션 요약, 워크플로, 검증 통과",
     },
     {
+      name: "Email Draft Agent",
+      status: "로컬 이메일 요약, 답장 초안, 승인 요청서 생성 및 검증 통과",
+    },
+    {
       name: "Sheets Reader Agent",
       status: "로컬 CSV 읽기 전용 리포트 생성 및 검증 통과",
     },
@@ -94,7 +114,7 @@ const assistantReport: ReportData = {
     {
       name: "Harness Agent",
       status:
-        "정책, 리플레이, 문서, 커뮤니케이션, Sheets Reader, Sheets Write Approval 검증 실행",
+        "정책, 리플레이, 문서, 커뮤니케이션, Email Draft, Sheets Reader, Sheets Write Approval 검증 실행",
     },
     {
       name: "Supervisor Agent",
@@ -114,11 +134,11 @@ const assistantReport: ReportData = {
     "전체 하네스 점검이 통과했습니다.",
   ],
   recentCommits: [
+    "424825f feat: add email draft workflow MVP",
+    "47b373e feat: show sheets write approval status on dashboard",
     "aee9504 feat: add sheets write approval flow MVP",
     "b2a548a feat: show supervisor and notification status on dashboard",
     "3809520 feat: add notification draft agent MVP",
-    "1049c0b feat: add supervisor agent MVP",
-    "0b8d80c feat: display assistant report on dashboard",
   ],
   remainingRisks: [
     "현재 보고서는 로컬 명령 결과 기반이며 외부 서비스 상태는 확인하지 않습니다.",
@@ -131,6 +151,7 @@ const assistantReport: ReportData = {
   ],
   approvalRequired: [
     "이메일 발송이 필요한 경우 명시적 사용자 승인이 필요합니다.",
+    "Email Draft 결과에서 수신자, 회사명, 마감일, 가격, 수량, 약속, 법적/권리 이슈가 불명확하면 확인 필요로 표시해야 합니다.",
     "Slack 또는 Telegram 알림이 필요한 경우 명시적 사용자 승인이 필요합니다.",
     "Google Sheets 쓰기가 필요한 경우 대상 시트, 탭, 행/열, 원본 값, 제안 값을 제시한 뒤 명시적 사용자 승인이 필요합니다.",
     "Google Sheets 쓰기 실행 전 사후 검증 계획을 제시해야 합니다.",
@@ -189,6 +210,38 @@ const assistantReport: ReportData = {
       "실제 알림 발송은 승인 게이트 이후 별도 검증 필요",
     ],
   },
+  emailDraft: {
+    summaryGenerated: "생성됨",
+    replyDraftGenerated: "생성됨",
+    approvalRequestGenerated: "생성됨",
+    sendStatus: "발송하지 않음",
+    approvalRequired: "필요",
+    gmailApiStatus: "연결하지 않음",
+    recipient: "확인 필요",
+    companyName: "Acme Korea",
+    majorRequests: [
+      "파일럿 계약 조건과 견적 검토 가능 여부 회신",
+      "회신 또는 조치 희망 시점: 이번 주 금요일",
+    ],
+    nextActions: [
+      "사용자가 이메일 내용과 수신자를 검토합니다.",
+      "불명확한 항목을 확인합니다.",
+      "답장 초안을 검토한 뒤 발송 여부를 명시적으로 승인합니다.",
+    ],
+    confirmations: [
+      "수신자: 확인 필요",
+      "법적/권리 이슈: 확인 필요",
+      "가격: 확인 필요",
+      "수량: 확인 필요",
+      "약속: 확인 필요",
+    ],
+    risks: [
+      "Gmail API는 연결하지 않았습니다.",
+      "실제 이메일 발송과 Gmail 초안 생성은 수행하지 않았습니다.",
+      "사용자 승인 없이 발송하면 안 됩니다.",
+      "불명확한 항목이 있어 확정 표현이나 과도한 약속을 피해야 합니다.",
+    ],
+  },
   sheetsWriteApproval: {
     approvalRequired: "필요",
     actualWriteStatus: "수행하지 않음",
@@ -213,7 +266,10 @@ const assistantReport: ReportData = {
     ],
     verificationPlan:
       "쓰기 후 같은 스프레드시트, Tasks 탭, 12행 status 열을 다시 읽어 값이 완료인지 확인하고 결과를 한국어로 보고합니다.",
-    finalStatus: ["write_status_complete: 승인 필요", "write_missing_fields_unsafe: 차단"],
+    finalStatus: [
+      "write_status_complete: 승인 필요",
+      "write_missing_fields_unsafe: 차단",
+    ],
   },
 };
 
@@ -455,6 +511,63 @@ export default function Home() {
         <div className="detail-block">
           <h3>최종 상태</h3>
           <BulletList items={assistantReport.sheetsWriteApproval.finalStatus} />
+        </div>
+      </section>
+
+      <section className="content-section" aria-labelledby="email-draft-title">
+        <div className="section-heading">
+          <h2 id="email-draft-title">Email Draft 상태</h2>
+          <p>Gmail API 연결 없이 로컬 이메일 요약과 검토용 답장 초안만 표시합니다.</p>
+        </div>
+        <dl className="action-list">
+          <div>
+            <dt>이메일 요약 생성 여부</dt>
+            <dd>{assistantReport.emailDraft.summaryGenerated}</dd>
+          </div>
+          <div>
+            <dt>답장 초안 생성 여부</dt>
+            <dd>{assistantReport.emailDraft.replyDraftGenerated}</dd>
+          </div>
+          <div>
+            <dt>승인 요청서 생성 여부</dt>
+            <dd>{assistantReport.emailDraft.approvalRequestGenerated}</dd>
+          </div>
+          <div>
+            <dt>발송 여부</dt>
+            <dd>{assistantReport.emailDraft.sendStatus}</dd>
+          </div>
+          <div>
+            <dt>승인 필요 여부</dt>
+            <dd>{assistantReport.emailDraft.approvalRequired}</dd>
+          </div>
+          <div>
+            <dt>Gmail API 연결 여부</dt>
+            <dd>{assistantReport.emailDraft.gmailApiStatus}</dd>
+          </div>
+          <div>
+            <dt>수신자</dt>
+            <dd>{assistantReport.emailDraft.recipient}</dd>
+          </div>
+          <div>
+            <dt>회사명</dt>
+            <dd>{assistantReport.emailDraft.companyName}</dd>
+          </div>
+        </dl>
+        <div className="detail-block">
+          <h3>주요 요청 사항</h3>
+          <BulletList items={assistantReport.emailDraft.majorRequests} />
+        </div>
+        <div className="detail-block">
+          <h3>다음 액션</h3>
+          <BulletList items={assistantReport.emailDraft.nextActions} />
+        </div>
+        <div className="detail-block">
+          <h3>확인이 필요한 부분</h3>
+          <BulletList items={assistantReport.emailDraft.confirmations} />
+        </div>
+        <div className="detail-block">
+          <h3>위험 요소</h3>
+          <BulletList items={assistantReport.emailDraft.risks} />
         </div>
       </section>
 

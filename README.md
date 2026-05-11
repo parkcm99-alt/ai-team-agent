@@ -137,6 +137,10 @@ AI 팀 에이전트 시스템의 초기 프로젝트 구조입니다. 첫 버전
 - 대시보드는 Assistant Report Agent가 생성한 `reports/daily_status_report.md`의 주요 항목을 표시합니다.
 - 대시보드는 Supervisor 라우팅 상태를 표시합니다.
 - 대시보드는 Notification Draft Agent의 Slack/Telegram 초안 상태를 표시합니다.
+- 대시보드는 Email Draft Workflow 상태를 표시합니다.
+- Gmail API는 아직 연결하지 않았습니다.
+- 실제 이메일 발송은 계속 차단되어 있습니다.
+- 향후 이메일 발송은 명시적인 사용자 승인 이후에만 검토할 수 있습니다.
 - 대시보드는 Sheets Write Approval Flow 상태를 표시합니다.
 - 실제 Google Sheets 쓰기 작업은 아직 연결하지 않았습니다.
 - Google Sheets API는 아직 연결하지 않았습니다.
