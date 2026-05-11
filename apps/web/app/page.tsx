@@ -32,10 +32,27 @@ type ReportData = {
     confirmations: string[];
     risks: string[];
   };
+  sheetsWriteApproval: {
+    approvalRequired: string;
+    actualWriteStatus: string;
+    apiConnectionStatus: string;
+    targetSpreadsheet: string;
+    targetTab: string;
+    targetRow: string;
+    targetColumn: string;
+    originalValue: string;
+    proposedValue: string;
+    changeReason: string;
+    risks: string[];
+    confirmations: string[];
+    verificationPlan: string;
+    finalStatus: string[];
+  };
 };
 
 // TODO: Automate syncing from reports/daily_status_report.md.
 // TODO: Automate syncing Supervisor and Notification results from local reports.
+// TODO: Automate syncing Sheets Write Approval status from local approval reports.
 const assistantReport: ReportData = {
   title: "AI 팀 에이전트 일일 상태 보고서",
   overallStatus: [
@@ -48,6 +65,7 @@ const assistantReport: ReportData = {
     "Document Agent MVP와 검증 러너가 준비되어 있습니다.",
     "Communication Agent MVP, 워크플로 테스트, 로컬 러너가 준비되어 있습니다.",
     "Sheets Reader MVP가 로컬 CSV 읽기 전용으로 준비되어 있습니다.",
+    "Sheets Write Approval Flow MVP가 실제 쓰기 없이 승인 요청서를 생성합니다.",
     "Assistant Report Agent MVP가 로컬 상태 보고서를 생성합니다.",
     "Supervisor Agent MVP 라우팅 결과가 보고서와 대시보드에 반영됩니다.",
     "Notification Draft Agent MVP가 Slack/Telegram 초안 상태를 표시합니다.",
@@ -70,8 +88,13 @@ const assistantReport: ReportData = {
       status: "로컬 CSV 읽기 전용 리포트 생성 및 검증 통과",
     },
     {
+      name: "Sheets Write Approval Agent",
+      status: "로컬 승인 요청서 생성, 실제 쓰기 미수행, API 미연결",
+    },
+    {
       name: "Harness Agent",
-      status: "정책, 리플레이, 문서, 커뮤니케이션, Sheets Reader 검증 실행",
+      status:
+        "정책, 리플레이, 문서, 커뮤니케이션, Sheets Reader, Sheets Write Approval 검증 실행",
     },
     {
       name: "Supervisor Agent",
@@ -91,11 +114,11 @@ const assistantReport: ReportData = {
     "전체 하네스 점검이 통과했습니다.",
   ],
   recentCommits: [
+    "aee9504 feat: add sheets write approval flow MVP",
     "b2a548a feat: show supervisor and notification status on dashboard",
     "3809520 feat: add notification draft agent MVP",
     "1049c0b feat: add supervisor agent MVP",
     "0b8d80c feat: display assistant report on dashboard",
-    "2ebe609 docs: record vercel dashboard deployment",
   ],
   remainingRisks: [
     "현재 보고서는 로컬 명령 결과 기반이며 외부 서비스 상태는 확인하지 않습니다.",
@@ -110,6 +133,7 @@ const assistantReport: ReportData = {
     "이메일 발송이 필요한 경우 명시적 사용자 승인이 필요합니다.",
     "Slack 또는 Telegram 알림이 필요한 경우 명시적 사용자 승인이 필요합니다.",
     "Google Sheets 쓰기가 필요한 경우 대상 시트, 탭, 행/열, 원본 값, 제안 값을 제시한 뒤 명시적 사용자 승인이 필요합니다.",
+    "Google Sheets 쓰기 실행 전 사후 검증 계획을 제시해야 합니다.",
     "Instagram 게시가 필요한 경우 권리 체크리스트와 명시적 사용자 승인이 필요합니다.",
   ],
   externalActions: [
@@ -164,6 +188,32 @@ const assistantReport: ReportData = {
       "외부 API 연결 없음",
       "실제 알림 발송은 승인 게이트 이후 별도 검증 필요",
     ],
+  },
+  sheetsWriteApproval: {
+    approvalRequired: "필요",
+    actualWriteStatus: "수행하지 않음",
+    apiConnectionStatus: "연결하지 않음",
+    targetSpreadsheet: "AI Team Agent Ops Tracker",
+    targetTab: "Tasks",
+    targetRow: "12",
+    targetColumn: "status",
+    originalValue: "대기",
+    proposedValue: "완료",
+    changeReason:
+      "Supervisor Agent MVP 검증이 통과되어 상태 업데이트가 제안되었습니다.",
+    risks: [
+      "실제 Google Sheets 쓰기는 MVP에서 비활성화되어 있습니다.",
+      "명시적 승인 전에는 어떤 쓰기 작업도 실행할 수 없습니다.",
+      "명시적 사용자 승인이 아직 없습니다.",
+      "필수 필드가 누락된 쓰기 요청은 차단 상태로 낮춰야 합니다.",
+    ],
+    confirmations: [
+      "사용자 명시적 승인: 확인 필요",
+      "누락 필드가 있는 요청의 대상 스프레드시트, 대상 행, 원본 값, 변경 사유, 사후 검증 계획: 확인 필요",
+    ],
+    verificationPlan:
+      "쓰기 후 같은 스프레드시트, Tasks 탭, 12행 status 열을 다시 읽어 값이 완료인지 확인하고 결과를 한국어로 보고합니다.",
+    finalStatus: ["write_status_complete: 승인 필요", "write_missing_fields_unsafe: 차단"],
   },
 };
 
@@ -341,6 +391,71 @@ export default function Home() {
             <BulletList items={assistantReport.notificationDraft.risks} />
           </div>
         </article>
+      </section>
+
+      <section className="content-section" aria-labelledby="sheets-write-title">
+        <div className="section-heading">
+          <h2 id="sheets-write-title">Sheets 쓰기 승인 상태</h2>
+          <p>Google Sheets 실제 쓰기 없이 로컬 승인 요청서 상태만 표시합니다.</p>
+        </div>
+        <dl className="action-list">
+          <div>
+            <dt>승인 필요 여부</dt>
+            <dd>{assistantReport.sheetsWriteApproval.approvalRequired}</dd>
+          </div>
+          <div>
+            <dt>실제 쓰기 수행 여부</dt>
+            <dd>{assistantReport.sheetsWriteApproval.actualWriteStatus}</dd>
+          </div>
+          <div>
+            <dt>Google Sheets API 연결 여부</dt>
+            <dd>{assistantReport.sheetsWriteApproval.apiConnectionStatus}</dd>
+          </div>
+          <div>
+            <dt>대상 스프레드시트</dt>
+            <dd>{assistantReport.sheetsWriteApproval.targetSpreadsheet}</dd>
+          </div>
+          <div>
+            <dt>대상 탭</dt>
+            <dd>{assistantReport.sheetsWriteApproval.targetTab}</dd>
+          </div>
+          <div>
+            <dt>대상 행</dt>
+            <dd>{assistantReport.sheetsWriteApproval.targetRow}</dd>
+          </div>
+          <div>
+            <dt>대상 열</dt>
+            <dd>{assistantReport.sheetsWriteApproval.targetColumn}</dd>
+          </div>
+          <div>
+            <dt>원본 값</dt>
+            <dd>{assistantReport.sheetsWriteApproval.originalValue}</dd>
+          </div>
+          <div>
+            <dt>제안 값</dt>
+            <dd>{assistantReport.sheetsWriteApproval.proposedValue}</dd>
+          </div>
+        </dl>
+        <div className="detail-block">
+          <h3>변경 사유</h3>
+          <p>{assistantReport.sheetsWriteApproval.changeReason}</p>
+        </div>
+        <div className="detail-block">
+          <h3>위험 요소</h3>
+          <BulletList items={assistantReport.sheetsWriteApproval.risks} />
+        </div>
+        <div className="detail-block">
+          <h3>확인이 필요한 부분</h3>
+          <BulletList items={assistantReport.sheetsWriteApproval.confirmations} />
+        </div>
+        <div className="detail-block">
+          <h3>사후 검증 계획</h3>
+          <p>{assistantReport.sheetsWriteApproval.verificationPlan}</p>
+        </div>
+        <div className="detail-block">
+          <h3>최종 상태</h3>
+          <BulletList items={assistantReport.sheetsWriteApproval.finalStatus} />
+        </div>
       </section>
 
       <section className="two-column">

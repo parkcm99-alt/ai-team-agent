@@ -130,6 +130,11 @@ AI 팀 에이전트 시스템의 초기 프로젝트 구조입니다. 첫 버전
 - 대시보드는 Assistant Report Agent가 생성한 `reports/daily_status_report.md`의 주요 항목을 표시합니다.
 - 대시보드는 Supervisor 라우팅 상태를 표시합니다.
 - 대시보드는 Notification Draft Agent의 Slack/Telegram 초안 상태를 표시합니다.
+- 대시보드는 Sheets Write Approval Flow 상태를 표시합니다.
+- 실제 Google Sheets 쓰기 작업은 아직 연결하지 않았습니다.
+- Google Sheets API는 아직 연결하지 않았습니다.
+- 향후 모든 Google Sheets 쓰기 작업은 계속 승인 게이트를 거쳐야 합니다.
+- 향후 쓰기 작업은 대상 스프레드시트, 대상 탭, 대상 행, 대상 열, 원본 값, 제안 값, 사후 검증 계획을 실행 전에 표시해야 합니다.
 - Slack/Telegram 실제 발송은 연결하지 않았습니다.
 - 모든 외부 실행 작업은 계속 승인 게이트 또는 차단 상태로 유지합니다.
 - 현재 보고서 연동은 정적/build-time 방식이며, 외부 API나 런타임 파일 동기화는 사용하지 않습니다.

@@ -9,8 +9,11 @@
 - Assistant Report Agent의 `reports/daily_status_report.md` 주요 항목을 대시보드에 반영합니다.
 - Supervisor 라우팅 상태를 대시보드에 표시합니다.
 - Notification Draft Agent의 Slack/Telegram 초안 상태를 대시보드에 표시합니다.
+- Sheets Write Approval Flow 상태를 대시보드에 표시합니다.
 - 현재 보고서 연동은 정적/build-time 방식입니다.
 - 외부 API, 인증 정보, 비밀값, 실서비스 데이터 연결은 없습니다.
+- 실제 Google Sheets 쓰기 작업과 Google Sheets API 연결은 아직 추가하지 않았습니다.
+- 향후 Google Sheets 쓰기 작업은 대상 스프레드시트, 탭, 행, 열, 원본 값, 제안 값, 사후 검증 계획을 표시한 뒤 승인 게이트를 통과해야 합니다.
 - Slack/Telegram 실제 발송은 연결하지 않았습니다.
 - 모든 외부 실행 작업은 계속 승인 게이트 또는 차단 상태입니다.
 - Assistant Report 데이터는 보고서 생성 시점의 로컬 상태를 반영할 수 있습니다.
